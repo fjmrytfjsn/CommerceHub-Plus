@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+model ProductInventory {
+  productNo      String   @id
+  productName    String
+  unitPrice      Int
+  category       String
+  manufacturer   String
+  stockQuantity1 Int
+  stockQuantity2 Int
+}
+
+model OrderData {
+  orderNo        String   @id
+  orderDate      DateTime
+  productNo      String
+  productName    String
+  purchaserName  String
+  purchaserAddress String
+  purchaserContact String
+  purchaseQuantity Int
+  paymentMethod  String
+  paymentStatus  String
+  shippingStatus String
+}
+
+model UserAuth {
+  userId   String @id
+  password String
+  role     String
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}

@@ -16,3 +16,5 @@ Thumbs.db
 # 出力ディレクトリ（ビルド成果物）
 dist/
 build/
+
+/generated/prisma
