@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   sqlite:
     image: nouchka/sqlite3:latest
