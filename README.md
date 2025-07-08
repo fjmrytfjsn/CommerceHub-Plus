@@ -1,2 +1,2 @@
-# bug-free-dollop
+# CommerceHub-Plus
 ソフトウェアシステム開発のグループ演習。
