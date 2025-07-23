@@ -1,0 +1,27 @@
+{
+  "scripts": {
+    "test:client": "cd client && npm run test:run",
+    "test:server": "cd server && npm test",
+    "test": "npm run test:client && npm run test:server",
+    "test:coverage": "npm run test:coverage:client && npm run test:coverage:server",
+    "test:coverage:client": "cd client && npm run test:coverage",
+    "test:coverage:server": "cd server && npm run test:coverage",
+    "test:ci": "npm run test:ci:client && npm run test:ci:server",
+    "test:ci:client": "cd client && npm run test:ci",
+    "test:ci:server": "cd server && npm run test:ci"
+  },
+  "devDependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.2.0",
+    "@mui/material": "^7.2.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^24.0.15",
+    "jsdom": "^26.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "vitest": "^3.2.4"
+  }
+}

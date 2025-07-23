@@ -10,13 +10,17 @@ import {
   FormControl,
   Paper,
 } from "@mui/material";
+import { useAuth } from "../hooks/useAuth";
+import type { UserRole } from "../types";
 
-type Props = {
-  onLogin: (role: string) => void;
-};
+export default function Login() {
+  const [role, setRole] = useState<UserRole>("purchaser");
+  const { setRole: setAuthRole } = useAuth();
 
-export default function Login({ onLogin }: Props) {
-  const [role, setRole] = useState("purchaser");
+  const handleLogin = () => {
+    setAuthRole(role);
+  };
+
   return (
     <Container
       maxWidth="sm"
@@ -39,7 +43,7 @@ export default function Login({ onLogin }: Props) {
               labelId="role-label"
               value={role}
               label="ロール"
-              onChange={(e) => setRole(e.target.value)}
+              onChange={(e) => setRole(e.target.value as UserRole)}
             >
               <MenuItem value="purchaser">購入者</MenuItem>
               <MenuItem value="ordertaker">注文受付係</MenuItem>
@@ -51,7 +55,7 @@ export default function Login({ onLogin }: Props) {
             variant="contained"
             color="primary"
             size="large"
-            onClick={() => onLogin(role)}
+            onClick={handleLogin}
           >
             ログイン
           </Button>

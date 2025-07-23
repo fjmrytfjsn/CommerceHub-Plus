@@ -24,15 +24,56 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  width: 100vw;
+  min-width: 100vw;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+/* レスポンシブ対応：画面幅ごとにフォントサイズやレイアウトを調整 */
+@media (max-width: 767px) {
+  :root {
+    font-size: 14px;
+  }
+  h1 {
+    font-size: 2em;
+  }
+  body {
+    padding: 0 8px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  :root {
+    font-size: 16px;
+  }
+  h1 {
+    font-size: 2.4em;
+  }
+  body {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    font-size: 18px;
+  }
+  h1 {
+    font-size: 3.2em;
+  }
+  body {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
 }
 
 button {
