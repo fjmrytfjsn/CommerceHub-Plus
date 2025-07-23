@@ -4,7 +4,12 @@ import { createOrderRouter } from "./interfaces/orderController";
 import { RegisterOrderService } from "./application/order/RegisterOrderService";
 import { PrismaClient } from "@prisma/client";
 import productsController from "./interfaces/productsController";
+import { createAuthRouter } from "./interfaces/authController";
 import cors from "cors";
+import dotenv from "dotenv";
+
+// 環境変数を読み込み
+dotenv.config();
 
 /**
  * アプリケーションを作成する関数（テスト用）
@@ -75,6 +80,11 @@ export function createApp(prismaClient?: PrismaClient) {
   });
 
   app.use("/api/products", productsController);
+
+  /**
+   * 認証API
+   */
+  app.use("/api/auth", createAuthRouter());
 
   /**
    * DDD構成の注文API
