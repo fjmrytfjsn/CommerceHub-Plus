@@ -1,5 +1,5 @@
-import { Router, Request, Response } from 'express';
-import { AuthService, UserRole } from '../application/auth/AuthService';
+import { Router, Request, Response } from "express";
+import { AuthService, UserRole } from "../application/auth/AuthService";
 
 /**
  * 認証リクエストの型定義
@@ -21,22 +21,22 @@ export function createAuthRouter(authService?: AuthService): Router {
    * POST /api/auth/login
    * パスワード認証を行う
    */
-  router.post('/login', (req: Request, res: Response) => {
+  router.post("/login", (req: Request, res: Response) => {
     const { role, password }: AuthRequest = req.body;
 
     // リクエストデータの検証
     if (!role || !password) {
       return res.status(400).json({
-        status: 'failure',
-        message: 'ロールとパスワードを指定してください。'
+        status: "failure",
+        message: "ロールとパスワードを指定してください。",
       });
     }
 
     // サポートされているロールかチェック
-    if (!['ordertaker', 'accountant', 'shipping'].includes(role)) {
+    if (!["ordertaker", "accountant", "shipping"].includes(role)) {
       return res.status(400).json({
-        status: 'failure',
-        message: '無効なロールです。'
+        status: "failure",
+        message: "無効なロールです。",
       });
     }
 
@@ -46,21 +46,21 @@ export function createAuthRouter(authService?: AuthService): Router {
 
       if (isAuthenticated) {
         return res.json({
-          status: 'success',
-          message: '認証に成功しました。',
-          role: role
+          status: "success",
+          message: "認証に成功しました。",
+          role: role,
         });
       } else {
         return res.status(401).json({
-          status: 'failure',
-          message: 'パスワードが正しくありません。'
+          status: "failure",
+          message: "パスワードが正しくありません。",
         });
       }
     } catch (error) {
-      console.error('認証エラー:', error);
+      console.error("認証エラー:", error);
       return res.status(500).json({
-        status: 'failure',
-        message: 'サーバー内部エラーが発生しました。'
+        status: "failure",
+        message: "サーバー内部エラーが発生しました。",
       });
     }
   });
@@ -69,14 +69,14 @@ export function createAuthRouter(authService?: AuthService): Router {
    * GET /api/auth/roles
    * 認証が必要なロール一覧を取得
    */
-  router.get('/roles', (req: Request, res: Response) => {
-    const roles = ['ordertaker', 'accountant', 'shipping'];
+  router.get("/roles", (req: Request, res: Response) => {
+    const roles = ["ordertaker", "accountant", "shipping"];
     return res.json({
-      status: 'success',
+      status: "success",
       data: {
         authenticatedRoles: roles,
-        publicRoles: ['purchaser']
-      }
+        publicRoles: ["purchaser"],
+      },
     });
   });
 

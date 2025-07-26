@@ -100,5 +100,7 @@ export function createApp(prismaClient?: PrismaClient) {
 // 本番環境では直接サーバーを起動
 if (require.main === module) {
   const app = createApp();
-  app.listen(3000, () => console.log("サーバー起動: http://localhost:3000"));
+  app.listen(process.env.PORT || 3000, () => {
+    console.log(`サーバーがポート ${process.env.PORT || 3000} で起動しました`);
+  });
 }

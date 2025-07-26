@@ -22,10 +22,20 @@ export default function Login() {
   const [error, setError] = useState("");
   const { setRole: setAuthRole } = useAuth();
 
+  const apiUrl = import.meta.env.VITE_API_URL as string;
+
   // パスワードが必要なロールかどうかチェック
-  const requiresPassword = ["ordertaker", "accountant", "shipping"].includes(role);
+  const requiresPassword = ["ordertaker", "accountant", "shipping"].includes(
+    role
+  );
 
   const handleLogin = async () => {
+    if (!apiUrl) {
+      console.warn(
+        "VITE_API_URLが設定されていません。client/.envファイルにVITE_API_URLを定義し、Viteサーバーを再起動してください。"
+      );
+      return;
+    }
     setError("");
     setLoading(true);
 
@@ -43,7 +53,7 @@ export default function Login() {
           return;
         }
 
-        const response = await fetch("/api/auth/login", {
+        const response = await fetch(`${apiUrl}/api/auth/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -85,7 +95,7 @@ export default function Login() {
         <Typography variant="h5" align="center" gutterBottom>
           ログイン
         </Typography>
-        
+
         {error && (
           <Alert severity="error" sx={{ mb: 3 }}>
             {error}
