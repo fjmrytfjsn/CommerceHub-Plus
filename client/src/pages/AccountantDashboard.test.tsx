@@ -130,18 +130,18 @@ describe("AccountantDashboard", () => {
 
     // 4つの支払い方法が表示されることを確認（role="option"で絞り込み）
     await waitFor(() => {
-      const creditCardOption = screen.getAllByText("クレジットカード").find(
-        (element) => element.getAttribute("role") === "option"
-      );
-      const bankTransferOption = screen.getAllByText("銀行振込").find(
-        (element) => element.getAttribute("role") === "option"
-      );
-      const convenienceOption = screen.getAllByText("コンビニ決済").find(
-        (element) => element.getAttribute("role") === "option"
-      );
-      const cashOnDeliveryOption = screen.getAllByText("代金引換").find(
-        (element) => element.getAttribute("role") === "option"
-      );
+      const creditCardOption = screen
+        .getAllByText("クレジットカード")
+        .find((element) => element.getAttribute("role") === "option");
+      const bankTransferOption = screen
+        .getAllByText("銀行振込")
+        .find((element) => element.getAttribute("role") === "option");
+      const convenienceOption = screen
+        .getAllByText("コンビニ決済")
+        .find((element) => element.getAttribute("role") === "option");
+      const cashOnDeliveryOption = screen
+        .getAllByText("代金引換")
+        .find((element) => element.getAttribute("role") === "option");
 
       expect(creditCardOption).toBeInTheDocument();
       expect(bankTransferOption).toBeInTheDocument();

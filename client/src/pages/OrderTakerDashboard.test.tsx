@@ -339,15 +339,15 @@ describe("OrderTakerDashboard", () => {
 
     // 3つの支払い方法が表示されることを確認（role="option"で絞り込み）
     await waitFor(() => {
-      const bankTransferOption = screen.getAllByText("銀行振込").find(
-        (element) => element.getAttribute("role") === "option"
-      );
-      const convenienceOption = screen.getAllByText("コンビニ決済").find(
-        (element) => element.getAttribute("role") === "option"
-      );
-      const cashOnDeliveryOption = screen.getAllByText("代金引換").find(
-        (element) => element.getAttribute("role") === "option"
-      );
+      const bankTransferOption = screen
+        .getAllByText("銀行振込")
+        .find((element) => element.getAttribute("role") === "option");
+      const convenienceOption = screen
+        .getAllByText("コンビニ決済")
+        .find((element) => element.getAttribute("role") === "option");
+      const cashOnDeliveryOption = screen
+        .getAllByText("代金引換")
+        .find((element) => element.getAttribute("role") === "option");
 
       expect(bankTransferOption).toBeInTheDocument();
       expect(convenienceOption).toBeInTheDocument();
@@ -461,11 +461,11 @@ describe("OrderTakerDashboard", () => {
     });
 
     const addButtons = screen.getAllByText("カートに追加");
-    
+
     await act(async () => {
       fireEvent.click(addButtons[0]); // P001 (1000円)
     });
-    
+
     await act(async () => {
       fireEvent.click(addButtons[1]); // P002 (2000円)
     });

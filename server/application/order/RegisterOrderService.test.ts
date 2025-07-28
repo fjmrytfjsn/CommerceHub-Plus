@@ -273,7 +273,9 @@ describe("RegisterOrderService", () => {
       );
       mockRepo.save.mockResolvedValue(undefined);
 
-      const result = await service.registerPhoneFaxOrder([validInputBankTransfer]);
+      const result = await service.registerPhoneFaxOrder([
+        validInputBankTransfer,
+      ]);
 
       expect(result).toEqual(["ORD001"]);
       expect(OrderFactory.createPhoneFaxOrder).toHaveBeenCalledWith(
@@ -302,7 +304,9 @@ describe("RegisterOrderService", () => {
       );
       mockRepo.save.mockResolvedValue(undefined);
 
-      const result = await service.registerPhoneFaxOrder([validInputCashOnDelivery]);
+      const result = await service.registerPhoneFaxOrder([
+        validInputCashOnDelivery,
+      ]);
 
       expect(result).toEqual(["ORD002"]);
       expect(OrderFactory.createPhoneFaxOrder).toHaveBeenCalledWith(
