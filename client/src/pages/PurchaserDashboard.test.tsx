@@ -348,4 +348,55 @@ describe("PurchaserDashboard", () => {
       });
     }
   });
+
+  it("カートに商品追加時に送料表示が更新される", async () => {
+    await act(async () => {
+      renderPurchaserDashboard();
+    });
+
+    // 初期状態では送料情報は表示されない
+    expect(screen.queryByText("送料:")).not.toBeInTheDocument();
+    expect(screen.queryByText("総合計:")).not.toBeInTheDocument();
+
+    // カートに商品を追加
+    const addButtons = await screen.findAllByRole("button", {
+      name: "カートに追加",
+    });
+    await act(async () => {
+      fireEvent.click(addButtons[0]);
+    });
+
+    // 送料と総合計が表示されることを確認
+    await waitFor(() => {
+      expect(screen.getByText("商品合計: 1,000円")).toBeInTheDocument();
+      expect(screen.getByText("送料: 660円")).toBeInTheDocument();
+      expect(screen.getByText("総合計: 1,660円")).toBeInTheDocument();
+    });
+  });
+
+  it("複数商品追加時に正しい金額計算が表示される", async () => {
+    await act(async () => {
+      renderPurchaserDashboard();
+    });
+
+    // 2つの商品をカートに追加
+    const addButtons = await screen.findAllByRole("button", {
+      name: "カートに追加",
+    });
+    
+    await act(async () => {
+      fireEvent.click(addButtons[0]); // P001 (1000円)
+    });
+    
+    await act(async () => {
+      fireEvent.click(addButtons[1]); // P002 (2000円)
+    });
+
+    // 正しい金額計算が表示されることを確認
+    await waitFor(() => {
+      expect(screen.getByText("商品合計: 3,000円")).toBeInTheDocument();
+      expect(screen.getByText("送料: 660円")).toBeInTheDocument();
+      expect(screen.getByText("総合計: 3,660円")).toBeInTheDocument();
+    });
+  });
 });

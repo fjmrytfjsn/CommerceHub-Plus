@@ -213,6 +213,47 @@ describe("useCart", () => {
     });
   });
 
+  describe("getShippingFee", () => {
+    it("カートに商品がある場合は送料660円を返す", () => {
+      const { result } = renderHook(() => useCart());
+
+      act(() => {
+        result.current.addToCart(mockProduct1);
+      });
+
+      expect(result.current.getShippingFee()).toBe(660);
+    });
+
+    it("カートが空の場合は送料0円を返す", () => {
+      const { result } = renderHook(() => useCart());
+
+      expect(result.current.getShippingFee()).toBe(0);
+    });
+  });
+
+  describe("getTotalAmountWithShipping", () => {
+    it("送料込みの合計金額を正しく計算できる", () => {
+      const { result } = renderHook(() => useCart());
+
+      act(() => {
+        result.current.addToCart(mockProduct1); // 1000円 × 1個
+        result.current.addToCart(mockProduct2); // 2000円 × 1個
+        result.current.updateCartQuantity("P001", 3); // 1000円 × 3個
+      });
+
+      // 商品合計: 1000 × 3 + 2000 × 1 = 5000
+      // 送料: 660円
+      // 合計: 5660円
+      expect(result.current.getTotalAmountWithShipping()).toBe(5660);
+    });
+
+    it("空のカートの送料込み合計金額は0", () => {
+      const { result } = renderHook(() => useCart());
+
+      expect(result.current.getTotalAmountWithShipping()).toBe(0);
+    });
+  });
+
   describe("getTotalQuantity", () => {
     it("カートの合計数量を正しく計算できる", () => {
       const { result } = renderHook(() => useCart());

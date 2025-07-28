@@ -222,7 +222,7 @@ describe("Type Definitions", () => {
       };
 
       expect(netOrderRequest.productDetails).toHaveLength(1);
-      expect(netOrderRequest.shippingFee).toBe(500);
+      expect(netOrderRequest.shippingFee).toBe(660);
     });
   });
 
