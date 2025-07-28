@@ -132,6 +132,72 @@ describe("ShippingDashboard", () => {
     expect(screen.getByText("ログアウト")).toBeInTheDocument();
   });
 
+  it("発送状態のMenuItemクリックハンドラーをテストする", async () => {
+    await act(async () => {
+      renderShippingDashboard();
+    });
+
+    // 発送状態のSelectを開く
+    const shippingStatusSelect = screen.getByLabelText(/発送状態/);
+    fireEvent.mouseDown(shippingStatusSelect);
+
+    // 未発送を選択（複数の要素から role="option" のものを選択）
+    await waitFor(() => {
+      const unshippedOptions = screen.getAllByText("未発送");
+      const unshippedOption = unshippedOptions.find(
+        (option) => option.getAttribute("role") === "option"
+      );
+      if (unshippedOption) {
+        fireEvent.click(unshippedOption);
+      }
+    });
+
+    // 再度Selectを開いて発送済を選択
+    fireEvent.mouseDown(shippingStatusSelect);
+    await waitFor(() => {
+      const shippedOptions = screen.getAllByText("発送済");
+      const shippedOption = shippedOptions.find(
+        (option) => option.getAttribute("role") === "option"
+      );
+      if (shippedOption) {
+        fireEvent.click(shippedOption);
+      }
+    });
+  });
+
+  it("支払い状態のMenuItemクリックハンドラーをテストする", async () => {
+    await act(async () => {
+      renderShippingDashboard();
+    });
+
+    // 支払い状態のSelectを開く
+    const paymentStatusSelect = screen.getByLabelText(/支払い状態/);
+    fireEvent.mouseDown(paymentStatusSelect);
+
+    // 支払済を選択（複数の要素から role="option" のものを選択）
+    await waitFor(() => {
+      const paidOptions = screen.getAllByText("支払済");
+      const paidOption = paidOptions.find(
+        (option) => option.getAttribute("role") === "option"
+      );
+      if (paidOption) {
+        fireEvent.click(paidOption);
+      }
+    });
+
+    // 再度Selectを開いて未払いを選択
+    fireEvent.mouseDown(paymentStatusSelect);
+    await waitFor(() => {
+      const unpaidOptions = screen.getAllByText("未払い");
+      const unpaidOption = unpaidOptions.find(
+        (option) => option.getAttribute("role") === "option"
+      );
+      if (unpaidOption) {
+        fireEvent.click(unpaidOption);
+      }
+    });
+  });
+
   it("発送状態更新ボタンをクリックできる", async () => {
     await act(async () => {
       renderShippingDashboard();

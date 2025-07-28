@@ -13,7 +13,7 @@ export class OrderRepository {
    * 排他制御のためトランザクションを利用
    */
   async save(order: Order): Promise<void> {
-    await this.prisma.$transaction(async (tx) => {
+    await this.prisma.$transaction(async (tx: any) => {
       const existing = await tx.orderData.findUnique({
         where: { orderNo: order.orderNo },
       });

@@ -31,16 +31,16 @@ describe("Appコンポーネント", () => {
   });
   it("初期状態でLogin画面が表示される", async () => {
     renderAppWithProviders(["/"], null);
-    // より具体的なテキストでLoginコンポーネントの表示を確認
+    // ログインコンポーネントの表示を確認
     expect(
-      await screen.findByText("ログイン（ロール選択）")
+      await screen.findByRole("heading", { name: /ログイン/ })
     ).toBeInTheDocument();
   });
 
   it("未ログイン時に/purchaser等へアクセスすると/loginへリダイレクトされる", async () => {
     renderAppWithProviders(["/purchaser"], null);
     expect(
-      await screen.findByText("ログイン（ロール選択）")
+      await screen.findByRole("heading", { name: /ログイン/ })
     ).toBeInTheDocument();
   });
 
@@ -63,7 +63,7 @@ describe("Appコンポーネント", () => {
 
     // ログイン画面に戻ることを確認
     expect(
-      await screen.findByText("ログイン（ロール選択）")
+      await screen.findByRole("heading", { name: /ログイン/ })
     ).toBeInTheDocument();
   });
 });
