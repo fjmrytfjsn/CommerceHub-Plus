@@ -39,6 +39,8 @@ export default function OrderTakerDashboard() {
     removeFromCart,
     clearCart,
     getTotalAmount,
+    getShippingFee,
+    getTotalAmountWithShipping,
   } = useCart();
   const { notification, showNotification, hideNotification } =
     useNotification();
@@ -219,7 +221,7 @@ export default function OrderTakerDashboard() {
         {/* カート内容セクション */}
         <Box width="100%" maxWidth={{ xs: "100%", md: 1200 }} mt={3} mb={1}>
           <Typography align="left">
-            カート内容（合計: {getTotalAmount()}円）
+            カート内容
           </Typography>
         </Box>
         <TableContainer
@@ -286,6 +288,29 @@ export default function OrderTakerDashboard() {
             </TableBody>
           </Table>
         </TableContainer>
+
+        {/* 料金計算セクション */}
+        {cart.length > 0 && (
+          <Box
+            width="100%"
+            maxWidth={{ xs: "100%", md: 1200 }}
+            mt={2}
+            display="flex"
+            flexDirection="column"
+            alignItems="flex-end"
+            gap={1}
+          >
+            <Typography variant="body1">
+              商品合計: {getTotalAmount().toLocaleString()}円
+            </Typography>
+            <Typography variant="body1">
+              送料: {getShippingFee().toLocaleString()}円
+            </Typography>
+            <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+              総合計: {getTotalAmountWithShipping().toLocaleString()}円
+            </Typography>
+          </Box>
+        )}
 
         {/* 購入者情報・支払い方法セクション */}
         <Box width="100%" maxWidth={{ xs: "100%", md: 1200 }} mt={3} mb={1}>

@@ -50,13 +50,23 @@ export function useCart() {
     setCart([]);
   }, []);
 
-  // カートの合計金額を計算
+  // カートの合計金額を計算（商品のみ）
   const getTotalAmount = useCallback(() => {
     return cart.reduce(
       (total, item) => total + item.unitPrice * item.quantity,
       0
     );
   }, [cart]);
+
+  // 送料を取得
+  const getShippingFee = useCallback(() => {
+    return cart.length > 0 ? 660 : 0;
+  }, [cart]);
+
+  // 送料込みの総額を計算
+  const getTotalAmountWithShipping = useCallback(() => {
+    return getTotalAmount() + getShippingFee();
+  }, [getTotalAmount, getShippingFee]);
 
   // カートの合計数量を計算
   const getTotalQuantity = useCallback(() => {
@@ -70,6 +80,8 @@ export function useCart() {
     removeFromCart,
     clearCart,
     getTotalAmount,
+    getShippingFee,
+    getTotalAmountWithShipping,
     getTotalQuantity,
   };
 }
