@@ -46,6 +46,10 @@ export class OrderFactory {
       Math.floor(Math.random() * 10000)
         .toString()
         .padStart(4, "0");
+
+    // 代金引換の場合は支払済みとする
+    const paymentStatus = paymentMethod === "代金引換" ? "支払済" : "未払い";
+
     const order: OrderProps = {
       orderNo,
       orderDate: new Date(),
@@ -56,7 +60,7 @@ export class OrderFactory {
       purchaserContact,
       purchaseQuantity,
       paymentMethod,
-      paymentStatus: "未払い",
+      paymentStatus,
       shippingStatus: "未発送",
     };
     return new Order(order);

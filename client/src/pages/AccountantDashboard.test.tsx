@@ -104,19 +104,50 @@ describe("AccountantDashboard", () => {
     const paymentMethodSelect = screen.getByLabelText(/支払い方法/);
     fireEvent.mouseDown(paymentMethodSelect);
 
-    // 現金を選択（複数の要素から role="option" のものを選択）
+    // クレジットカードを選択（複数の要素から role="option" のものを選択）
     await waitFor(() => {
-      const cashOptions = screen.getAllByText("現金");
-      const cashOption = cashOptions.find(
+      const creditCardOptions = screen.getAllByText("クレジットカード");
+      const creditCardOption = creditCardOptions.find(
         (option) => option.getAttribute("role") === "option"
       );
-      if (cashOption) {
-        fireEvent.click(cashOption);
+      if (creditCardOption) {
+        fireEvent.click(creditCardOption);
       }
     });
 
     // テストが実行されることを確認
     expect(paymentMethodSelect).toBeInTheDocument();
+  });
+
+  it("支払い方法の選択肢が正しく表示される", async () => {
+    await act(async () => {
+      renderAccountantDashboard();
+    });
+
+    // 支払い方法のSelectを開く
+    const paymentMethodSelect = screen.getByLabelText(/支払い方法/);
+    fireEvent.mouseDown(paymentMethodSelect);
+
+    // 4つの支払い方法が表示されることを確認（role="option"で絞り込み）
+    await waitFor(() => {
+      const creditCardOption = screen.getAllByText("クレジットカード").find(
+        (element) => element.getAttribute("role") === "option"
+      );
+      const bankTransferOption = screen.getAllByText("銀行振込").find(
+        (element) => element.getAttribute("role") === "option"
+      );
+      const convenienceOption = screen.getAllByText("コンビニ決済").find(
+        (element) => element.getAttribute("role") === "option"
+      );
+      const cashOnDeliveryOption = screen.getAllByText("代金引換").find(
+        (element) => element.getAttribute("role") === "option"
+      );
+
+      expect(creditCardOption).toBeInTheDocument();
+      expect(bankTransferOption).toBeInTheDocument();
+      expect(convenienceOption).toBeInTheDocument();
+      expect(cashOnDeliveryOption).toBeInTheDocument();
+    });
   });
 
   it("支払い状態のMenuItemクリックハンドラーをテストする", async () => {

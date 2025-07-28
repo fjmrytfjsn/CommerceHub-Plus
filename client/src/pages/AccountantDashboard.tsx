@@ -31,7 +31,8 @@ import CheckIcon from "@mui/icons-material/Check";
 export default function AccountantDashboard() {
   const { logout } = useAuth();
   const { orders, loading, searchOrders, updatePaymentStatus } = useOrders();
-  const { notification, showNotification, hideNotification } = useNotification();
+  const { notification, showNotification, hideNotification } =
+    useNotification();
 
   // 検索条件
   const [searchParams, setSearchParams] = useState({
@@ -136,14 +137,20 @@ export default function AccountantDashboard() {
               label="支払い状態"
               onChange={(e) => {
                 const value = e.target.value;
-                updateSearchParam("paymentStatus", searchParams.paymentStatus === value ? "" : value);
+                updateSearchParam(
+                  "paymentStatus",
+                  searchParams.paymentStatus === value ? "" : value
+                );
               }}
               renderValue={(selected) => selected || ""}
             >
               <MenuItem
                 value="未払い"
                 onClick={() => {
-                  updateSearchParam("paymentStatus", searchParams.paymentStatus === "未払い" ? "" : "未払い");
+                  updateSearchParam(
+                    "paymentStatus",
+                    searchParams.paymentStatus === "未払い" ? "" : "未払い"
+                  );
                 }}
               >
                 未払い
@@ -157,7 +164,10 @@ export default function AccountantDashboard() {
               <MenuItem
                 value="支払済"
                 onClick={() => {
-                  updateSearchParam("paymentStatus", searchParams.paymentStatus === "支払済" ? "" : "支払済");
+                  updateSearchParam(
+                    "paymentStatus",
+                    searchParams.paymentStatus === "支払済" ? "" : "支払済"
+                  );
                 }}
               >
                 支払済
@@ -178,27 +188,35 @@ export default function AccountantDashboard() {
               label="支払い方法"
               onChange={(e) => {
                 const value = e.target.value;
-                updateSearchParam("paymentMethod", searchParams.paymentMethod === value ? "" : value);
+                updateSearchParam(
+                  "paymentMethod",
+                  searchParams.paymentMethod === value ? "" : value
+                );
               }}
               renderValue={(selected) => selected || ""}
             >
-              {["現金", "クレジット", "その他"].map((method) => (
-                <MenuItem
-                  key={method}
-                  value={method}
-                  onClick={() => {
-                    updateSearchParam("paymentMethod", searchParams.paymentMethod === method ? "" : method);
-                  }}
-                >
-                  {method}
-                  {searchParams.paymentMethod === method && (
-                    <CheckIcon
-                      fontSize="small"
-                      sx={{ ml: 1, verticalAlign: "middle" }}
-                    />
-                  )}
-                </MenuItem>
-              ))}
+              {["クレジットカード", "銀行振込", "コンビニ決済", "代金引換"].map(
+                (method) => (
+                  <MenuItem
+                    key={method}
+                    value={method}
+                    onClick={() => {
+                      updateSearchParam(
+                        "paymentMethod",
+                        searchParams.paymentMethod === method ? "" : method
+                      );
+                    }}
+                  >
+                    {method}
+                    {searchParams.paymentMethod === method && (
+                      <CheckIcon
+                        fontSize="small"
+                        sx={{ ml: 1, verticalAlign: "middle" }}
+                      />
+                    )}
+                  </MenuItem>
+                )
+              )}
             </Select>
           </FormControl>
           <Button
@@ -216,11 +234,7 @@ export default function AccountantDashboard() {
         {loading ? (
           <LoadingSpinner message="検索中..." />
         ) : (
-          <Box
-            width="100%"
-            maxWidth={{ xs: "100%", md: 1200 }}
-            mx="auto"
-          >
+          <Box width="100%" maxWidth={{ xs: "100%", md: 1200 }} mx="auto">
             <TableContainer component={Paper}>
               <Table size="small">
                 <TableHead>

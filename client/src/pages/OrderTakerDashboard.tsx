@@ -220,9 +220,7 @@ export default function OrderTakerDashboard() {
 
         {/* カート内容セクション */}
         <Box width="100%" maxWidth={{ xs: "100%", md: 1200 }} mt={3} mb={1}>
-          <Typography align="left">
-            カート内容
-          </Typography>
+          <Typography align="left">カート内容</Typography>
         </Box>
         <TableContainer
           component={Paper}
@@ -357,6 +355,7 @@ export default function OrderTakerDashboard() {
             >
               <MenuItem value="銀行振込">銀行振込</MenuItem>
               <MenuItem value="コンビニ決済">コンビニ決済</MenuItem>
+              <MenuItem value="代金引換">代金引換</MenuItem>
             </Select>
           </FormControl>
         </Box>

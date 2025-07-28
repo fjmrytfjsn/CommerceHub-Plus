@@ -328,6 +328,33 @@ describe("OrderTakerDashboard", () => {
     expect(paymentSelect).toBeInTheDocument();
   });
 
+  it("支払い方法の選択肢が正しく表示される", async () => {
+    await act(async () => {
+      renderOrderTakerDashboard();
+    });
+
+    // 支払い方法のSelectを開く
+    const paymentSelect = screen.getByLabelText("支払い方法");
+    fireEvent.mouseDown(paymentSelect);
+
+    // 3つの支払い方法が表示されることを確認（role="option"で絞り込み）
+    await waitFor(() => {
+      const bankTransferOption = screen.getAllByText("銀行振込").find(
+        (element) => element.getAttribute("role") === "option"
+      );
+      const convenienceOption = screen.getAllByText("コンビニ決済").find(
+        (element) => element.getAttribute("role") === "option"
+      );
+      const cashOnDeliveryOption = screen.getAllByText("代金引換").find(
+        (element) => element.getAttribute("role") === "option"
+      );
+
+      expect(bankTransferOption).toBeInTheDocument();
+      expect(convenienceOption).toBeInTheDocument();
+      expect(cashOnDeliveryOption).toBeInTheDocument();
+    });
+  });
+
   it("updatePurchaserInfo関数をテスト", async () => {
     await act(async () => {
       renderOrderTakerDashboard();

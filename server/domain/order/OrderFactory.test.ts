@@ -30,7 +30,7 @@ describe("OrderFactory", () => {
     expect(order.orderDate).toBeInstanceOf(Date);
   });
 
-  it("createPhoneFaxOrderで正しいOrderが生成される", () => {
+  it("createPhoneFaxOrderで正しいOrderが生成される（銀行振込）", () => {
     const order = OrderFactory.createPhoneFaxOrder(
       "P002",
       "商品B",
@@ -49,6 +49,54 @@ describe("OrderFactory", () => {
     expect(order.purchaseQuantity).toBe(1);
     expect(order.paymentMethod).toBe("銀行振込");
     expect(order.paymentStatus).toBe("未払い");
+    expect(order.shippingStatus).toBe("未発送");
+    expect(order.orderNo).toMatch(/^ORD\d+/);
+    expect(order.orderDate).toBeInstanceOf(Date);
+  });
+
+  it("createPhoneFaxOrderで正しいOrderが生成される（コンビニ決済）", () => {
+    const order = OrderFactory.createPhoneFaxOrder(
+      "P003",
+      "商品C",
+      "田中一郎",
+      "福岡県",
+      "070-3333-4444",
+      3,
+      "コンビニ決済"
+    );
+    expect(order).toBeInstanceOf(Order);
+    expect(order.productNo).toBe("P003");
+    expect(order.productName).toBe("商品C");
+    expect(order.purchaserName).toBe("田中一郎");
+    expect(order.purchaserAddress).toBe("福岡県");
+    expect(order.purchaserContact).toBe("070-3333-4444");
+    expect(order.purchaseQuantity).toBe(3);
+    expect(order.paymentMethod).toBe("コンビニ決済");
+    expect(order.paymentStatus).toBe("未払い");
+    expect(order.shippingStatus).toBe("未発送");
+    expect(order.orderNo).toMatch(/^ORD\d+/);
+    expect(order.orderDate).toBeInstanceOf(Date);
+  });
+
+  it("createPhoneFaxOrderで正しいOrderが生成される（代金引換）", () => {
+    const order = OrderFactory.createPhoneFaxOrder(
+      "P004",
+      "商品D",
+      "鈴木二郎",
+      "北海道",
+      "060-5555-6666",
+      2,
+      "代金引換"
+    );
+    expect(order).toBeInstanceOf(Order);
+    expect(order.productNo).toBe("P004");
+    expect(order.productName).toBe("商品D");
+    expect(order.purchaserName).toBe("鈴木二郎");
+    expect(order.purchaserAddress).toBe("北海道");
+    expect(order.purchaserContact).toBe("060-5555-6666");
+    expect(order.purchaseQuantity).toBe(2);
+    expect(order.paymentMethod).toBe("代金引換");
+    expect(order.paymentStatus).toBe("支払済");
     expect(order.shippingStatus).toBe("未発送");
     expect(order.orderNo).toMatch(/^ORD\d+/);
     expect(order.orderDate).toBeInstanceOf(Date);

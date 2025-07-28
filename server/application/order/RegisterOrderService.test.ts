@@ -238,17 +238,27 @@ describe("RegisterOrderService", () => {
   });
 
   describe("registerPhoneFaxOrder", () => {
-    const validInput = {
+    const validInputBankTransfer = {
       productNo: "P001",
       productName: "商品A",
       purchaserName: "山田太郎",
       purchaserAddress: "東京都渋谷区",
       purchaserContact: "090-0000-0000",
       purchaseQuantity: 2,
-      paymentMethod: "現金",
+      paymentMethod: "銀行振込",
     };
 
-    it("正常系: 電話・FAX注文登録が成功する", async () => {
+    const validInputCashOnDelivery = {
+      productNo: "P002",
+      productName: "商品B",
+      purchaserName: "佐藤花子",
+      purchaserAddress: "大阪府大阪市",
+      purchaserContact: "080-1111-2222",
+      purchaseQuantity: 1,
+      paymentMethod: "代金引換",
+    };
+
+    it("正常系: 電話・FAX注文登録が成功する（銀行振込）", async () => {
       const mockProduct = {
         productNo: "P001",
         stockQuantity2: 10,
@@ -263,7 +273,7 @@ describe("RegisterOrderService", () => {
       );
       mockRepo.save.mockResolvedValue(undefined);
 
-      const result = await service.registerPhoneFaxOrder([validInput]);
+      const result = await service.registerPhoneFaxOrder([validInputBankTransfer]);
 
       expect(result).toEqual(["ORD001"]);
       expect(OrderFactory.createPhoneFaxOrder).toHaveBeenCalledWith(
@@ -273,12 +283,41 @@ describe("RegisterOrderService", () => {
         "東京都渋谷区",
         "090-0000-0000",
         2,
-        "現金"
+        "銀行振込"
+      );
+    });
+
+    it("正常系: 電話・FAX注文登録が成功する（代金引換）", async () => {
+      const mockProduct = {
+        productNo: "P002",
+        stockQuantity2: 5,
+        productName: "商品B",
+      };
+      const mockOrder = { orderNo: "ORD002" };
+
+      mockPrisma.productInventory.findUnique.mockResolvedValue(mockProduct);
+      mockPrisma.productInventory.update.mockResolvedValue({});
+      (OrderFactory.createPhoneFaxOrder as jest.Mock).mockReturnValue(
+        mockOrder
+      );
+      mockRepo.save.mockResolvedValue(undefined);
+
+      const result = await service.registerPhoneFaxOrder([validInputCashOnDelivery]);
+
+      expect(result).toEqual(["ORD002"]);
+      expect(OrderFactory.createPhoneFaxOrder).toHaveBeenCalledWith(
+        "P002",
+        "商品B",
+        "佐藤花子",
+        "大阪府大阪市",
+        "080-1111-2222",
+        1,
+        "代金引換"
       );
     });
 
     it("異常系: 支払い方法が未指定の場合", async () => {
-      const invalidInput = { ...validInput };
+      const invalidInput = { ...validInputBankTransfer };
       delete (invalidInput as any).paymentMethod;
 
       const mockProduct = { productNo: "P001", stockQuantity2: 10 };
