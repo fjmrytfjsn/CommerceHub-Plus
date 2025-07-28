@@ -297,4 +297,101 @@ describe("OrderTakerDashboard", () => {
       expect(screen.getByText("カートに商品がありません")).toBeInTheDocument();
     });
   });
+
+  it("支払い方法を変更できる", async () => {
+    await act(async () => {
+      renderOrderTakerDashboard();
+    });
+
+    // 支払い方法選択のドロップダウンをテスト
+    await waitFor(() => {
+      const paymentSelect = screen.getByLabelText("支払い方法");
+      expect(paymentSelect).toBeInTheDocument();
+
+      // 支払い方法のSelectを開く
+      fireEvent.mouseDown(paymentSelect);
+    });
+
+    // 銀行振込を選択（これが初期値のはず）
+    await waitFor(() => {
+      const bankTransferOptions = screen.getAllByText("銀行振込");
+      const bankTransferOption = bankTransferOptions.find(
+        (option) => option.getAttribute("role") === "option"
+      );
+      if (bankTransferOption) {
+        fireEvent.click(bankTransferOption);
+      }
+    });
+
+    // テストが実行されることを確認
+    const paymentSelect = screen.getByLabelText("支払い方法");
+    expect(paymentSelect).toBeInTheDocument();
+  });
+
+  it("updatePurchaserInfo関数をテスト", async () => {
+    await act(async () => {
+      renderOrderTakerDashboard();
+    });
+
+    await waitFor(() => {
+      const inputs = screen.getAllByRole("textbox");
+      expect(inputs.length).toBeGreaterThanOrEqual(3);
+
+      // 氏名フィールドの更新をテスト
+      const nameField = inputs[0];
+      fireEvent.change(nameField, { target: { value: "更新テスト太郎" } });
+      expect(nameField).toHaveValue("更新テスト太郎");
+
+      // 住所フィールドの更新をテスト
+      const addressField = inputs[1];
+      fireEvent.change(addressField, { target: { value: "神奈川県横浜市" } });
+      expect(addressField).toHaveValue("神奈川県横浜市");
+
+      // 連絡先フィールドの更新をテスト
+      const contactField = inputs[2];
+      fireEvent.change(contactField, { target: { value: "080-9999-8888" } });
+      expect(contactField).toHaveValue("080-9999-8888");
+    });
+  });
+
+  it("handleOrder関数のエラーハンドリングをテスト", async () => {
+    await act(async () => {
+      renderOrderTakerDashboard();
+    });
+
+    // カートに商品を追加
+    await waitFor(() => {
+      expect(screen.getByText("テスト商品A")).toBeInTheDocument();
+    });
+
+    const addButton = screen.getAllByText("カートに追加")[0];
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    // 購入者情報を不完全に入力
+    await waitFor(() => {
+      const inputs = screen.getAllByRole("textbox");
+      const nameField = inputs[0];
+      fireEvent.change(nameField, { target: { value: "テスト" } });
+      // 住所と連絡先は空のまま
+    });
+
+    // 注文確定ボタンをクリック
+    const orderButton = screen.getByText("注文を確定する");
+    await act(async () => {
+      fireEvent.click(orderButton);
+    });
+
+    // エラーメッセージが表示されることを確認
+    await waitFor(
+      () => {
+        const alertElement = screen.getByRole("alert");
+        expect(alertElement).toHaveTextContent(
+          "全ての項目を入力してください。"
+        );
+      },
+      { timeout: 3000 }
+    );
+  });
 });

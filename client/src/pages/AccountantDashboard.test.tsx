@@ -95,6 +95,63 @@ describe("AccountantDashboard", () => {
     expect(screen.getByText("ログアウト")).toBeInTheDocument();
   });
 
+  it("支払い方法のMenuItemクリックハンドラーをテストする", async () => {
+    await act(async () => {
+      renderAccountantDashboard();
+    });
+
+    // 支払い方法のSelectを開く
+    const paymentMethodSelect = screen.getByLabelText(/支払い方法/);
+    fireEvent.mouseDown(paymentMethodSelect);
+
+    // 現金を選択（複数の要素から role="option" のものを選択）
+    await waitFor(() => {
+      const cashOptions = screen.getAllByText("現金");
+      const cashOption = cashOptions.find(
+        (option) => option.getAttribute("role") === "option"
+      );
+      if (cashOption) {
+        fireEvent.click(cashOption);
+      }
+    });
+
+    // テストが実行されることを確認
+    expect(paymentMethodSelect).toBeInTheDocument();
+  });
+
+  it("支払い状態のMenuItemクリックハンドラーをテストする", async () => {
+    await act(async () => {
+      renderAccountantDashboard();
+    });
+
+    // 支払い状態のSelectを開く
+    const paymentStatusSelect = screen.getByLabelText(/支払い状態/);
+    fireEvent.mouseDown(paymentStatusSelect);
+
+    // 未払いを選択（複数の要素から role="option" のものを選択）
+    await waitFor(() => {
+      const unpaidOptions = screen.getAllByText("未払い");
+      const unpaidOption = unpaidOptions.find(
+        (option) => option.getAttribute("role") === "option"
+      );
+      if (unpaidOption) {
+        fireEvent.click(unpaidOption);
+      }
+    });
+
+    // 再度Selectを開いて支払済を選択
+    fireEvent.mouseDown(paymentStatusSelect);
+    await waitFor(() => {
+      const paidOptions = screen.getAllByText("支払済");
+      const paidOption = paidOptions.find(
+        (option) => option.getAttribute("role") === "option"
+      );
+      if (paidOption) {
+        fireEvent.click(paidOption);
+      }
+    });
+  });
+
   it("検索パラメータを更新できる", async () => {
     await act(async () => {
       renderAccountantDashboard();

@@ -41,7 +41,7 @@ export const setupApiMocks = () => {
     }
 
     // 電話注文API
-    if (urlString.includes("/api/orders/phone")) {
+    if (urlString.includes("/api/orders/phone-fax")) {
       return Promise.resolve({
         json: async () => ({
           status: "success",

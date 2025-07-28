@@ -218,7 +218,7 @@ describe("Type Definitions", () => {
           expiryDate: "12/25",
           securityCode: "123",
         },
-        shippingFee: 500,
+        shippingFee: 660,
       };
 
       expect(netOrderRequest.productDetails).toHaveLength(1);
@@ -241,6 +241,7 @@ describe("Type Definitions", () => {
           contact: "hanako@example.com",
         },
         paymentMethod: "代金引換",
+        shippingFee: 660, // 固定の送料
       };
 
       expect(phoneOrderRequest.productDetails).toHaveLength(1);

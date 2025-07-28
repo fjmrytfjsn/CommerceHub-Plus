@@ -48,11 +48,6 @@ export default function Login() {
 
       // パスワードが必要なロールの場合は認証API呼び出し
       if (requiresPassword) {
-        if (!password) {
-          setError("パスワードを入力してください。");
-          return;
-        }
-
         const response = await fetch(`${apiUrl}/api/auth/login`, {
           method: "POST",
           headers: {

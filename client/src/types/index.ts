@@ -85,4 +85,5 @@ export type PhoneOrderRequest = {
   productDetails: OrderDetail[];
   purchaserInfo: PurchaserInfo;
   paymentMethod: string;
+  shippingFee: number;
 };

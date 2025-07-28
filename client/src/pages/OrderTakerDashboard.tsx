@@ -100,9 +100,10 @@ export default function OrderTakerDashboard() {
         productDetails,
         purchaserInfo,
         paymentMethod,
+        shippingFee: 660, // 固定の送料
       };
 
-      const response = await fetch(`${apiUrl}/api/orders/phone`, {
+      const response = await fetch(`${apiUrl}/api/orders/phone-fax`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderRequest),
